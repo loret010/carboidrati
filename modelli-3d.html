@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Modelli 3D dei carboidrati</title>
+  <style>
+    :root{
+      --accent:#2a6f9e;
+      --muted:#6b7280;
+      --bg:#f7fafc;
+      --text:#0f172a;
+    }
+    *{box-sizing:border-box}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;margin:0;background:var(--bg);color:var(--text)}
+    
+    header{background:white;box-shadow:0 2px 6px rgba(20,30,40,.06);position:sticky;top:0;z-index:20;padding:1rem}
+    header h1{margin:0;font-size:1.5rem;color:var(--accent)}
+    nav{margin-top:0.5rem}
+    nav a{display:inline-block;margin-right:1rem;color:var(--accent);text-decoration:none}
+    nav a:hover{text-decoration:underline}
+    
+    .container{max-width:1200px;margin:0 auto;padding:1rem}
+    
+    #canvas{display:block;width:100%;height:600px;background:#fff;border-radius:10px;margin:1rem 0}
+    
+    .controls{background:white;padding:1rem;border-radius:10px;margin-bottom:1rem;box-shadow:0 1px 3px rgba(20,30,40,.04)}
+    .controls h2{margin-top:0;font-size:1.1rem}
+    .molecule-buttons{display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.75rem 0}
+    button{background:var(--accent);color:white;border:0;padding:0.5rem 1rem;border-radius:6px;cursor:pointer;font-size:0.95rem}
+    button:hover{opacity:0.9}
+    button.active{background:#10b981}
+    
+    .info{background:white;padding:1rem;border-radius:10px;box-shadow:0 1px 3px rgba(20,30,40,.04);margin-top:1rem}
+    .info h3{margin-top:0}
+    .info p{margin:0.5rem 0}
+    
+    .hint{font-size:0.9rem;color:var(--muted);margin-top:0.5rem;font-style:italic}
+    
+    footer{text-align:center;padding:1rem;color:var(--muted);font-size:0.9rem;margin-top:2rem}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Modelli 3D — Carboidrati</h1>
+    <nav>
+      <a href="index.html">← Torna alla home</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="controls">
+      <h2>Seleziona molecola</h2>
+      <div class="molecule-buttons">
+        <button class="mol-btn active" data-molecule="glucosio">Glucosio (C₆H₁₂O₆)</button>
+        <button class="mol-btn" data-molecule="fruttosio">Fruttosio (C₆H₁₂O₆)</button>
+        <button class="mol-btn" data-molecule="saccarosio">Saccarosio (C₁₂H₂₂O₁₁)</button>
+      </div>
+      <p class="hint">💡 Usa il mouse: trascina per ruotare, scroll per zoommare. Su touch: usa due dita.</p>
+    </div>
+
+    <canvas id="canvas"></canvas>
+
+    <div class="info">
+      <h3 id="mol-title">Glucosio</h3>
+      <p id="mol-description">Il glucosio è un monosaccaride, il principale carburante utilizzato dalle cellule per ottenere energia. Ha la formula C₆H₁₂O₆.</p>
+      <p id="mol-details">Struttura: anello esosano con 6 atomi di carbonio.</p>
+    </div>
+  </div>
+
+  <footer>
+    <p>Progetto di Butt, Capuano, Cominu, Contu, Tozzi - 2AIT</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="modelli-3d.js" defer></script>
+</body>
+</html>
