@@ -2,6 +2,10 @@
 document.addEventListener('DOMContentLoaded', function(){
   document.querySelectorAll('.main-nav a').forEach(a=>{
     a.addEventListener('click', function(e){
+      // Se il link punta a una pagina esterna, non fare nulla
+      if(this.getAttribute('href').includes('.html')) {
+        return;
+      }
       e.preventDefault();
       const id = this.getAttribute('href').slice(1);
       const el = document.getElementById(id);
