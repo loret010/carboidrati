@@ -151,7 +151,6 @@ function initScene() {
 function setupControls() {
   let isDragging = false;
   let previousMousePosition = {x:0, y:0};
-  let rotation = {x:0, y:0};
 
   document.getElementById('canvas').addEventListener('mousedown', (e) => {
     isDragging = true;
@@ -162,8 +161,9 @@ function setupControls() {
     if(isDragging){
       const deltaX = e.clientX - previousMousePosition.x;
       const deltaY = e.clientY - previousMousePosition.y;
-      rotation.y += deltaX * 0.005;
-      rotation.x += deltaY * 0.005;
+      // Update global moleculeRotation so the animation loop reads the values
+      moleculeRotation.y += deltaX * 0.005;
+      moleculeRotation.x += deltaY * 0.005;
       previousMousePosition = {x: e.clientX, y: e.clientY};
     }
   });
@@ -178,8 +178,8 @@ function setupControls() {
     camera.position.z = Math.max(2, Math.min(15, camera.position.z));
   });
 
-  // Store rotation for animation loop (non usare window.)
-  moleculeRotation = {x:0, y:0};
+  // Ensure we use the existing global moleculeRotation instead of creating a
+  // temporary rotation object. It's already initialized above.
 }
 
 function loadMolecule(name) {
@@ -191,12 +191,23 @@ function loadMolecule(name) {
   document.getElementById('mol-description').textContent = data.description;
   document.getElementById('mol-details').textContent = data.details;
 
-  // Clear scene (keep lights)
-  scene.children.forEach(obj => {
-    if(obj instanceof THREE.Mesh || obj instanceof THREE.LineSegments) {
+  // Remove meshes/lines safely by iterating backwards over children so we don't
+  // skip items when removing during iteration. Keep lights and other helpers.
+  for (let i = scene.children.length - 1; i >= 0; i--) {
+    const obj = scene.children[i];
+    // Skip lights and helpers
+    if (obj.isLight) continue;
+    // Remove meshes and lines
+    if (obj.isMesh || obj.type === 'Line' || obj.type === 'LineSegments') {
+      // Dispose geometries/materials to avoid memory leaks
+      if (obj.geometry) obj.geometry.dispose();
+      if (obj.material) {
+        if (Array.isArray(obj.material)) obj.material.forEach(m => m.dispose());
+        else obj.material.dispose();
+      }
       scene.remove(obj);
     }
-  });
+  }
 
   // Create atoms
   const atoms = [];
@@ -222,7 +233,7 @@ function loadMolecule(name) {
   });
 
   // Store atoms for rotation
-  window.sceneAtoms = atoms;
+  sceneAtoms = atoms;
 }
 
 function animate() {
