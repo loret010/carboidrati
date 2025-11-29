@@ -2,6 +2,7 @@
 let scene, camera, renderer, controls, currentMolecule;
 let sceneAtoms = [];
 let moleculeRotation = {x:0, y:0};
+let moleculeGroup = null; // Group containing atoms and bonds for current molecule
 
 const moleculeData = {
   glucosio: {
@@ -191,32 +192,47 @@ function loadMolecule(name) {
   document.getElementById('mol-description').textContent = data.description;
   document.getElementById('mol-details').textContent = data.details;
 
-  // Remove meshes/lines safely by iterating backwards over children so we don't
-  // skip items when removing during iteration. Keep lights and other helpers.
-  for (let i = scene.children.length - 1; i >= 0; i--) {
-    const obj = scene.children[i];
-    // Skip lights and helpers
-    if (obj.isLight) continue;
-    // Remove meshes and lines
-    if (obj.isMesh || obj.type === 'Line' || obj.type === 'LineSegments') {
-      // Dispose geometries/materials to avoid memory leaks
-      if (obj.geometry) obj.geometry.dispose();
-      if (obj.material) {
-        if (Array.isArray(obj.material)) obj.material.forEach(m => m.dispose());
-        else obj.material.dispose();
+  // Remove previous molecule group if present (keep lights and UI helpers)
+  if (moleculeGroup) {
+    // Dispose children geometries/materials and remove group
+    moleculeGroup.traverse(child => {
+      if (child.geometry) child.geometry.dispose();
+      if (child.material) {
+        if (Array.isArray(child.material)) child.material.forEach(m => m.dispose());
+        else child.material.dispose();
       }
-      scene.remove(obj);
+    });
+    scene.remove(moleculeGroup);
+    moleculeGroup = null;
+  } else {
+    // Fallback: no group found, remove standalone mesh/line objects (older code paths)
+    for (let i = scene.children.length - 1; i >= 0; i--) {
+      const obj = scene.children[i];
+      if (obj.isLight) continue;
+      if (obj.isMesh || obj.type === 'Line' || obj.type === 'LineSegments') {
+        if (obj.geometry) obj.geometry.dispose();
+        if (obj.material) {
+          if (Array.isArray(obj.material)) obj.material.forEach(m => m.dispose());
+          else obj.material.dispose();
+        }
+        scene.remove(obj);
+      }
     }
   }
 
-  // Create atoms
+  // Create a group for the molecule so atoms and bonds can be transformed together
+  moleculeGroup = new THREE.Group();
+  // Reset rotations so a new molecule loads with no leftover rotation
+  moleculeGroup.rotation.set(0, 0, 0);
+  moleculeRotation.x = 0;
+  moleculeRotation.y = 0;
   const atoms = [];
   data.atoms.forEach(atom => {
     const geom = new THREE.SphereGeometry(atom.size, 16, 16);
     const mat = new THREE.MeshPhongMaterial({color: atom.color});
     const mesh = new THREE.Mesh(geom, mat);
     mesh.position.set(...atom.pos);
-    scene.add(mesh);
+    moleculeGroup.add(mesh);
     atoms.push(mesh);
   });
 
@@ -229,20 +245,28 @@ function loadMolecule(name) {
     const geom = new THREE.BufferGeometry().setFromPoints(points);
     const mat = new THREE.LineBasicMaterial({color: 0x666666, linewidth: 2});
     const line = new THREE.LineSegments(geom, mat);
-    scene.add(line);
+    moleculeGroup.add(line);
   });
 
-  // Store atoms for rotation
+  // Store atoms for rotation (optional — not required if rotating group)
   sceneAtoms = atoms;
+
+  // Add molecule group to scene
+  scene.add(moleculeGroup);
 }
 
 function animate() {
   requestAnimationFrame(animate);
 
-  // Rotate molecule
-  if(sceneAtoms && sceneAtoms.length > 0) {
+  // Rotate molecule group (atoms and bonds together)
+  if (moleculeGroup) {
+    moleculeGroup.rotation.x += moleculeRotation.x * 0.02;
+    moleculeGroup.rotation.y += moleculeRotation.y * 0.02;
+    moleculeRotation.x *= 0.98;
+    moleculeRotation.y *= 0.98;
+  } else if (sceneAtoms && sceneAtoms.length > 0) {
+    // Fallback: rotate individual atoms if group wasn't created yet
     sceneAtoms.forEach(atom => {
-      // Ruota il gruppo di atomi come un'unica entità
       atom.position.applyMatrix4(new THREE.Matrix4().makeRotationX(moleculeRotation.x * 0.02));
       atom.position.applyMatrix4(new THREE.Matrix4().makeRotationY(moleculeRotation.y * 0.02));
     });
