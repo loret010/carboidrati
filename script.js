@@ -1,5 +1,6 @@
 //smooth scroll per i link interni, NON TOCCARE ALTRO O SI ROMPE E DEVO SISTEMARLO DI NUOVO PER 2 ORE PERCHE NN SCROLLA
-document.addEventListener('DOMContentLoaded', function(){
+
+function initializeQuiz() {
   document.querySelectorAll('.main-nav a').forEach(a=>{
     a.addEventListener('click', function(e){
       // Se il link punta a una pagina esterna, non fare nulla
@@ -47,6 +48,7 @@ document.addEventListener('DOMContentLoaded', function(){
       
       // Trova il div con la risposta associato a questo form
       const answerBox = this.closest('.quiz-question').querySelector('.quiz-answer');
+      const submitBtn = this.querySelector('input[type="submit"]');
       
       if(!answerBox) return;
 
@@ -72,7 +74,22 @@ document.addEventListener('DOMContentLoaded', function(){
         input.disabled = true;
       });
 
+      // Disabilita il bottone submit
+      if(submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = '0.5';
+      }
+
       answerBox.scrollIntoView({behavior:'smooth',block:'center'});
     });
   });
-});
+}
+
+// Inizializza quando DOM è pronto
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeQuiz);
+} else {
+  // Se lo script carica dopo il DOMContentLoaded
+  initializeQuiz();
+}
+
