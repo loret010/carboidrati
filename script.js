@@ -13,27 +13,59 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   });
   
-  const quizForm = document.getElementById('quiz-form');
-  const answerBox = document.getElementById('quiz-answer');
-  if(quizForm && answerBox){
-    quizForm.addEventListener('submit', function(e){
+  // Definizione delle risposte corrette per ogni domanda
+  const quizAnswers = {
+    '1': {
+      correct: ['Glicogeno', 'Chitina'],
+      type: 'checkbox'
+    },
+    '2': {
+      correct: ['Hanno la stessa formula chimica', 'Sono isomeri', 'Il fruttosio è più dolce del glucosio'],
+      type: 'checkbox'
+    },
+    '3': {
+      correct: ['Energia'],
+      type: 'radio'
+    },
+    '4': {
+      correct: ['Radici'],
+      type: 'radio'
+    },
+    '5': {
+      correct: ['Amido', 'Glicogeno'],
+      type: 'checkbox'
+    }
+  };
+
+  // Associa event listener a ogni form del quiz
+  document.querySelectorAll('.quiz-form').forEach(form => {
+    form.addEventListener('submit', function(e){
       e.preventDefault();
+
+      const questionId = this.getAttribute('data-question');
+      const answerData = quizAnswers[questionId];
+      
+      // Trova il div con la risposta associato a questo form
+      const answerBox = this.closest('.quiz-question').querySelector('.quiz-answer');
+      
+      if(!answerBox) return;
 
       answerBox.hidden = false;
 
-      const correct = ['Glicogeno','Chitina'];
-      const inputs = quizForm.querySelectorAll('input[name="opt"]');
+      const inputs = this.querySelectorAll('input[name="opt"]');
       inputs.forEach(input=>{
         const lbl = input.closest('label');
         if(!lbl) return;
 
         lbl.classList.remove('correct','incorrect');
 
-        if(correct.includes(input.value)) {
+        // Controlla se la risposta è corretta
+        if(answerData.correct.includes(input.value)) {
           lbl.classList.add('correct');
         }
 
-        if(input.checked && !correct.includes(input.value)) {
+        // Controlla se l'utente ha sbagliato
+        if(input.checked && !answerData.correct.includes(input.value)) {
           lbl.classList.add('incorrect');
         }
 
@@ -42,5 +74,5 @@ document.addEventListener('DOMContentLoaded', function(){
 
       answerBox.scrollIntoView({behavior:'smooth',block:'center'});
     });
-  }
+  });
 });

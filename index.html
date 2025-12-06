@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Carboidrati — Progetto di Biologia</title>
+  <title>Carboidrati: Progetto di Biologia</title>
   <link rel="stylesheet" href="styles.css">
   <meta name="description" content="Progetto di biologia sui carboidrati realizzato da Butt, Capuano, Cominu, Contu e Tozzi - 2AIT">
 </head>
@@ -75,24 +75,122 @@
 
     <section id="quiz">
       <h2>Quiz</h2>
-      <p>Quali carboidrati sono prodotti dagli animali?</p>
 
-      <form id="quiz-form">
-        <fieldset>
-          <legend class="visually-hidden">Scelte</legend>
-          <label><input type="checkbox" name="opt" value="Amido"> Amido</label><br>
-          <label><input type="checkbox" name="opt" value="Cellulosa"> Cellulosa</label><br>
-          <label><input type="checkbox" name="opt" value="Glicogeno"> Glicogeno</label><br>
-          <label><input type="checkbox" name="opt" value="Chitina"> Chitina</label>
-        </fieldset>
-        <p>
-          <input type="submit" value="Quiz">
-        </p>
-      </form>
+      <!-- Domanda 1 -->
+      <div class="quiz-question">
+        <h3>Domanda 1</h3>
+        <p>Quali carboidrati sono prodotti dagli animali?</p>
 
-      <div id="quiz-answer" class="quiz-answer" hidden>
-        <p>I polisaccaridi sono polimeri formati dall'unione di numerose molecole di monosaccaridi; nonostante siano costituiti da zuccheri, non sono solubili in acqua e non sono dolci. Sono i carboidrati più abbondanti e sono prodotti sia dai vegetali (amido e cellulosa), sia dagli animali (glicogeno e chitina).</p>
+        <form class="quiz-form" data-question="1">
+          <fieldset>
+            <legend class="visually-hidden">Scelte</legend>
+            <label><input type="checkbox" name="opt" value="Amido"> Amido</label><br>
+            <label><input type="checkbox" name="opt" value="Cellulosa"> Cellulosa</label><br>
+            <label><input type="checkbox" name="opt" value="Glicogeno"> Glicogeno</label><br>
+            <label><input type="checkbox" name="opt" value="Chitina"> Chitina</label>
+          </fieldset>
+          <p>
+            <input type="submit" value="Verifica">
+          </p>
+        </form>
+
+        <div class="quiz-answer" hidden>
+          <p>I polisaccaridi sono polimeri formati dall'unione di numerose molecole di monosaccaridi; nonostante siano costituiti da zuccheri, non sono solubili in acqua e non sono dolci. Sono i carboidrati più abbondanti e sono prodotti sia dai vegetali (amido e cellulosa), sia dagli animali (glicogeno e chitina).</p>
+        </div>
       </div>
+
+      <!-- Domanda 2 -->
+      <div class="quiz-question">
+        <h3>Domanda 2</h3>
+        <p>Quali delle seguenti affermazioni su glucosio e fruttosio sono corrette?</p>
+
+        <form class="quiz-form" data-question="2">
+          <fieldset>
+            <legend class="visually-hidden">Scelte</legend>
+            <label><input type="checkbox" name="opt" value="Hanno la stessa formula chimica"> Hanno la stessa formula chimica</label><br>
+            <label><input type="checkbox" name="opt" value="Sono isomeri"> Sono isomeri</label><br>
+            <label><input type="checkbox" name="opt" value="Il fruttosio è più dolce del glucosio"> Il fruttosio è più dolce del glucosio</label><br>
+            <label><input type="checkbox" name="opt" value="Sono disaccaridi"> Sono disaccaridi</label>
+          </fieldset>
+          <p>
+            <input type="submit" value="Verifica">
+          </p>
+        </form>
+
+        <div class="quiz-answer" hidden>
+          <p>Glucosio e fruttosio sono isomeri: hanno la stessa formula chimica (C₆H₁₂O₆) ma una diversa disposizione degli atomi nello spazio. Il fruttosio ha un potere dolcificante superiore al glucosio. Entrambi sono monosaccaridi, non disaccaridi.</p>
+        </div>
+      </div>
+
+      <!-- Domanda 3 -->
+      <div class="quiz-question">
+        <h3>Domanda 3</h3>
+        <p>Quale funzione hanno i disaccaridi?</p>
+
+        <form class="quiz-form" data-question="3">
+          <fieldset>
+            <legend class="visually-hidden">Scelte</legend>
+            <label><input type="radio" name="opt" value="Energia"> Fornire energia</label><br>
+            <label><input type="radio" name="opt" value="Strutturale"> Funzione strutturale</label><br>
+            <label><input type="radio" name="opt" value="Protezione"> Protezione dalle malattie</label><br>
+            <label><input type="radio" name="opt" value="Comunicazione"> Comunicazione cellulare</label>
+          </fieldset>
+          <p>
+            <input type="submit" value="Verifica">
+          </p>
+        </form>
+
+        <div class="quiz-answer" hidden>
+          <p>I disaccaridi hanno principalmente una funzione energetica. Essi forniscono energia alle cellule e vengono utilizzati come fonte di combustibile. Hanno un sapore dolce e si possono idrolizzare in acqua.</p>
+        </div>
+      </div>
+
+      <!-- Domanda 4 -->
+      <div class="quiz-question">
+        <h3>Domanda 4</h3>
+        <p>Dove viene immagazzinato il saccarosio nella barbabietola da zucchero?</p>
+
+        <form class="quiz-form" data-question="4">
+          <fieldset>
+            <legend class="visually-hidden">Scelte</legend>
+            <label><input type="radio" name="opt" value="Fusto"> Nel fusto</label><br>
+            <label><input type="radio" name="opt" value="Radici"> Nelle radici</label><br>
+            <label><input type="radio" name="opt" value="Foglie"> Nelle foglie</label><br>
+            <label><input type="radio" name="opt" value="Fiori"> Nei fiori</label>
+          </fieldset>
+          <p>
+            <input type="submit" value="Verifica">
+          </p>
+        </form>
+
+        <div class="quiz-answer" hidden>
+          <p>Il saccarosio nella barbabietola da zucchero è immagazzinato nelle radici, dove viene accumulato come riserva energetica. Nella canna da zucchero, invece, è immagazzinato nel fusto.</p>
+        </div>
+      </div>
+
+      <!-- Domanda 5 -->
+      <div class="quiz-question">
+        <h3>Domanda 5</h3>
+        <p>Quali di questi polisaccaridi hanno una funzione di riserva energetica?</p>
+
+        <form class="quiz-form" data-question="5">
+          <fieldset>
+            <legend class="visually-hidden">Scelte</legend>
+            <label><input type="checkbox" name="opt" value="Amido"> Amido</label><br>
+            <label><input type="checkbox" name="opt" value="Cellulosa"> Cellulosa</label><br>
+            <label><input type="checkbox" name="opt" value="Glicogeno"> Glicogeno</label><br>
+            <label><input type="checkbox" name="opt" value="Chitina"> Chitina</label>
+          </fieldset>
+          <p>
+            <input type="submit" value="Verifica">
+          </p>
+        </form>
+
+        <div class="quiz-answer" hidden>
+          <p>L'amido e il glicogeno hanno funzione di riserva energetica. L'amido è prodotto dalle piante e immagazzinato nei semi, tuberi e radici. Il glicogeno è prodotto dagli animali e accumulato nel fegato e nei muscoli. La cellulosa e la chitina hanno invece funzione strutturale.</p>
+        </div>
+      </div>
+
     </section>
 
   </main>
